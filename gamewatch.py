@@ -10,7 +10,9 @@ load_dotenv()
 TWITCH_CLIENT_ID = os.getenv('TWITCH_CLIENT_ID')
 TWITCH_SECRET = os.getenv('TWITCH_SECRET')
 WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK_URL')
+MSG = os.getenv('DISCORD_MESSAGE',"")
 GAME_NAME = os.getenv('GAME_NAME')
+
 
 # Dictionary to track streams and their last seen timestamp
 tracked_streams = {}
@@ -125,7 +127,7 @@ async def check_streams():
             new_usernames = [stream['user_name'].lower() for stream in new_streams]  # Lowercase for consistency
             print(f" Adding new streams: {', '.join(new_usernames)}")
         for stream in new_streams:
-            message = f"New stream found: {stream['title']} by {stream['user_name']}. Watch at https://www.twitch.tv/{stream['user_name']}"
+            message = f"New stream found: {stream['title']} by {stream['user_name']}. Watch at https://www.twitch.tv/{stream['user_name']} {MSG}"
             post_to_discord(message)
             tracked_streams[stream['user_name'].lower()] = current_time  # Ensure new streams are marked with the current time
             
